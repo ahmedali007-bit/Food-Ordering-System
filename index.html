@@ -2,14 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Smart QR Table Ordering - Customer</title>
-
-    <!-- Favicon - YAHAN ADD KARO -->
-    <link rel="icon" type="image/png" sizes="32x32" href="https://img.icons8.com/color/48/restaurant.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://img.icons8.com/color/48/restaurant.png">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/color/48/restaurant.png">
-    <link rel="shortcut icon" href="https://img.icons8.com/color/48/restaurant.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -17,34 +11,240 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/restaurant.png">
+    
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
+            color: #1e293b;
+            overflow-x: hidden;
         }
         
         .font-display {
             font-family: 'Playfair Display', serif;
         }
         
-        .category-pill {
-            transition: all 0.2s ease;
-            cursor: pointer;
+        /* Header Mobile Responsive */
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
         
-        .category-pill.active {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        @media (min-width: 640px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .restaurant-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        /* Table Selector - Mobile Optimized */
+        .table-selector-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+        
+        @media (min-width: 640px) {
+            .table-selector-container {
+                width: auto;
+            }
+        }
+        
+        .table-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            background: #f1f5f9;
+            padding: 0.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .table-btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            min-width: 2.5rem;
+        }
+        
+        .table-btn:hover {
+            background: #e2e8f0;
+        }
+        
+        .table-btn.active {
+            background: #2563eb;
             color: white;
         }
         
+        .table-input-group {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+        
+        .table-input {
+            width: 60px;
+            text-align: center;
+            padding: 0.5rem 0.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        
+        .table-input:focus {
+            border-color: #2563eb;
+        }
+        
+        .table-set-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+        
+        .table-set-btn:hover {
+            background: #1d4ed8;
+        }
+        
+        .table-badge {
+            background: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+        }
+        
+        .login-btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        /* Right Section */
+        .header-right {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        
+        @media (min-width: 640px) {
+            .header-right {
+                width: auto;
+                justify-content: flex-end;
+            }
+        }
+        
+        /* Category Pills - Horizontal Scroll */
+        .category-scroll {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-pill {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: #f1f5f9;
+            color: #475569;
+            white-space: nowrap;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .category-pill.active {
+            background: #2563eb;
+            color: white;
+        }
+        
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        @media (min-width: 480px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Menu Card */
         .menu-card {
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
             background: white;
             border-radius: 1rem;
             overflow: hidden;
             border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
         
         .menu-card:hover {
@@ -54,18 +254,64 @@
         
         .menu-card.unavailable {
             opacity: 0.6;
-            pointer-events: none;
+        }
+        
+        /* Size Options */
+        .size-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .size-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .size-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        
+        .size-price {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+        
+        .size-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
         
         .qty-btn {
-            transition: all 0.15s ease;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            min-width: 1.75rem;
-            min-height: 1.75rem;
+            border: none;
+            transition: all 0.15s;
         }
         
-        .qty-btn:active {
-            transform: scale(0.9);
+        .qty-btn.minus {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .qty-btn.plus {
+            background: #2563eb;
+            color: white;
         }
         
         .qty-btn:disabled {
@@ -76,51 +322,115 @@
         .qty-display {
             min-width: 1.5rem;
             text-align: center;
-            display: inline-block;
-            transition: none !important;
+            font-weight: 500;
         }
         
+        /* Cart Footer - Mobile Optimized */
         #cart-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: white;
             border-top: 1px solid #e2e8f0;
             box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+            transform: translateY(100%);
             transition: transform 0.3s ease;
+            z-index: 50;
         }
         
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        #cart-footer.visible {
+            transform: translateY(0);
         }
         
-        @keyframes slide-up {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .cart-footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
         }
         
-        .animate-fade-in-up {
-            animation: fadeInUp 0.5s ease-out forwards;
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
         }
         
-        .animate-slide-up {
-            animation: slide-up 0.4s ease-out forwards;
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         
-        .toast {
-            transform: translateX(-50%);
+        .cart-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #eff6ff;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .cart-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #2563eb;
         }
         
+        .cart-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-items {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .cart-total {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .view-cart-btn {
+            color: #2563eb;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            font-weight: 700;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .place-order-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Loading Spinner */
         .loading-spinner {
-            border: 3px solid #f3f3f3;
+            border: 3px solid #f1f5f9;
             border-top: 3px solid #2563eb;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 2.5rem;
+            height: 2.5rem;
             animation: spin 1s linear infinite;
         }
         
@@ -128,624 +438,418 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .no-items-message {
-            text-align: center;
-            padding: 3rem;
-            color: #64748b;
-            font-size: 1.1rem;
-        }
         
-        /* Login Modal Styles */
-        .login-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
         }
         
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        .toast.show {
+            opacity: 1;
         }
         
-        .login-modal {
+        /* Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
-            justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
+            justify-content: center;
         }
         
-        .login-modal.active {
+        .modal.active {
             display: flex;
         }
         
-        .login-modal-content {
+        .modal-content {
             background: white;
             border-radius: 1.5rem;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            animation: modalSlideIn 0.3s ease-out;
+            padding: 1.5rem;
+            max-width: 90%;
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .login-header h2 {
-            color: #1e293b;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .login-header p {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-        
-        .form-group label {
-            color: #475569;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .form-group input {
-            padding: 0.75rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #8b5cf6;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-        }
-        
-        .login-submit-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: white;
-            padding: 0.875rem;
-            border: none;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 0.5rem;
-        }
-        
-        .login-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-        }
-        
-        .login-error {
-            color: #ef4444;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .login-error.show {
-            display: block;
-        }
-        
-        .demo-credentials {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #f1f5f9;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
-            color: #475569;
-        }
-        
-        .demo-credentials p {
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-        
-        .demo-credentials ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .demo-credentials li {
-            padding: 0.2rem 0;
-            font-family: monospace;
-        }
-
-        .qty-display, .qty-btn {
-            transition: none !important;
-        }
-
-        /* Table Selector Styles */
-        .table-selector {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #f1f5f9;
-            padding: 0.25rem;
-            border-radius: 0.75rem;
-            border: 1px solid #e2e8f0;
-        }
-
-        .table-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            background: transparent;
-            color: #64748b;
-        }
-
-        .table-btn:hover {
-            background: #e2e8f0;
-        }
-
-        .table-btn.active {
-            background: #2563eb;
-            color: white;
-        }
-
-        .table-input {
-            width: 60px;
-            text-align: center;
-            padding: 0.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .table-input:focus {
-            border-color: #2563eb;
-        }
-
-        .table-set-btn {
-            background: #2563eb;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .table-set-btn:hover {
-            background: #1d4ed8;
+        /* Line Clamp */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="h-full bg-slate-50 text-gray-900 overflow-auto">
-    <div id="app" class="h-full w-full flex flex-col">
-        <!-- Navigation Header -->
-        <header id="main-header" class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                <div class="header-container">
+                    <!-- Restaurant Info -->
+                    <div class="restaurant-info">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
                         <div>
-                            <h1 id="restaurant-name" class="font-display text-lg font-bold text-blue-700">Culinary Haven</h1>
-                            <p id="restaurant-tagline" class="text-xs text-slate-600">Premium Dining</p>
+                            <h1 class="font-display text-lg font-bold text-blue-700">Culinary Haven</h1>
+                            <p class="text-xs text-slate-600">Premium Dining</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3">
+
+                    <!-- Right Section - Mobile Optimized -->
+                    <div class="header-right">
                         <!-- Table Selector -->
-                        <div class="table-selector">
-                            <button class="table-btn" onclick="setTableNumber(1)">1</button>
-                            <button class="table-btn" onclick="setTableNumber(2)">2</button>
-                            <button class="table-btn" onclick="setTableNumber(3)">3</button>
-                            <button class="table-btn" onclick="setTableNumber(4)">4</button>
-                            <button class="table-btn" onclick="setTableNumber(5)">5</button>
-                            <input type="number" id="custom-table" class="table-input" placeholder="#" min="1" max="100" value="1">
-                            <button class="table-set-btn" onclick="setCustomTable()">Set</button>
-                        </div>
-                        
-                        <div id="table-badge" class="bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200">
-                            <span class="text-xs text-slate-600">Table</span>
-                            <span id="table-number-display" class="text-blue-700 font-bold ml-1">1</span>
+                        <div class="table-selector-container">
+                            <div class="table-buttons">
+                                <button class="table-btn" onclick="setTableNumber(1)">1</button>
+                                <button class="table-btn" onclick="setTableNumber(2)">2</button>
+                                <button class="table-btn" onclick="setTableNumber(3)">3</button>
+                                <button class="table-btn" onclick="setTableNumber(4)">4</button>
+                                <button class="table-btn" onclick="setTableNumber(5)">5</button>
+                            </div>
+                            
+                            <div class="table-input-group">
+                                <input type="number" id="custom-table" class="table-input" placeholder="#" min="1" max="100" value="1">
+                                <button class="table-set-btn" onclick="setCustomTable()">Set</button>
+                            </div>
+                            
+                            <div class="table-badge">
+                                <span>Table</span>
+                                <span id="table-number-display">1</span>
+                            </div>
                         </div>
 
                         <!-- Login Button -->
                         <button class="login-btn" onclick="openLoginModal()">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                             </svg>
-                            Staff Login
+                            <span class="hidden sm:inline">Staff Login</span>
+                            <span class="sm:hidden">Login</span>
                         </button>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Login Modal -->
-        <div class="login-modal" id="loginModal">
-            <div class="login-modal-content">
-                <div class="login-header">
-                    <h2>👤 Staff Login</h2>
-                    <p>Enter your credentials to access dashboard</p>
-                </div>
-                
-                <div class="login-form">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Enter username" autocomplete="off">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter password">
-                    </div>
-                    
-                    <button class="login-submit-btn" onclick="handleLogin()">Login</button>
-                    
-                    <div class="login-error" id="loginError">
-                        Invalid username or password
-                    </div>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto">
+            <!-- Category Filters -->
+            <div class="sticky top-0 bg-white/95 backdrop-blur-sm z-40 px-4 py-3 border-b border-slate-200">
+                <div class="category-scroll" id="category-filters">
+                    <button class="category-pill active" data-category="all">All Items</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 overflow-auto">
-            <div id="page-order" class="page-content">
-                <!-- Category Filter -->
-                <div class="sticky top-0 bg-white/95 backdrop-blur-sm z-40 px-4 py-3 border-b border-slate-200">
-                    <div class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4" id="category-filters">
-                        <button class="category-pill active px-4 py-2 rounded-full text-sm font-medium bg-slate-100 text-slate-700 whitespace-nowrap" data-category="all">All Items</button>
-                        <!-- Categories will be dynamically added from Google Sheet -->
-                    </div>
-                </div>
+            <!-- Loading State -->
+            <div id="loading-state" class="flex justify-center items-center py-12">
+                <div class="loading-spinner"></div>
+                <p class="ml-3 text-slate-600">Loading menu...</p>
+            </div>
 
-                <!-- Loading State -->
-                <div id="loading-state" class="flex justify-center items-center py-12">
-                    <div class="loading-spinner"></div>
-                    <p class="ml-3 text-slate-600">Loading menu from restaurant...</p>
-                </div>
+            <!-- Menu Grid -->
+            <div id="menu-container" class="hidden">
+                <div id="menu-grid" class="menu-grid"></div>
+            </div>
 
-                <!-- Menu Grid -->
-                <div id="menu-container" class="p-4 pb-32 hidden">
-                    <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                </div>
+            <!-- Error State -->
+            <div id="error-state" class="text-center py-12 px-4 hidden">
+                <svg class="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <p class="text-lg font-medium text-slate-700" id="error-title">Failed to load menu</p>
+                <p class="text-sm text-slate-500 mt-2" id="error-message">Please check your connection</p>
+                <button onclick="loadMenuFromSheet()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg">
+                    Retry
+                </button>
+            </div>
 
-                <!-- Error State -->
-                <div id="error-state" class="text-center py-12 text-slate-500 hidden">
-                    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                    <p class="text-lg font-medium text-slate-700" id="error-title">Failed to load menu</p>
-                    <p class="text-sm text-slate-500 mt-2" id="error-message">Please check your connection and try again</p>
-                    <button onclick="loadMenuFromSheet()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                        Retry
-                    </button>
-                </div>
-
-                <!-- Fixed Cart Footer -->
-                <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 transform translate-y-full transition-transform duration-300 z-50 shadow-lg">
-                    <div class="max-w-7xl mx-auto px-4 py-3">
-                        <div id="cart-summary" class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-slate-600"><span id="cart-items-count">0</span> items</p>
-                                    <p class="text-lg font-bold text-gray-900">₹<span id="cart-total">0</span></p>
-                                </div>
-                            </div>
-                            <button id="view-cart-btn" class="text-blue-600 text-sm font-medium">View Cart →</button>
-                        </div>
-                        <button id="place-order-btn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span id="order-btn-text">Place Order</span>
-                            <svg id="order-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Cart Modal -->
-                <div id="cart-modal" class="fixed inset-0 bg-black/20 z-50 hidden">
-                    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[80%] overflow-hidden flex flex-col animate-slide-up">
-                        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
-                            <h3 class="text-lg font-bold text-gray-900">Your Order</h3>
-                            <button id="close-cart-modal" class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center hover:bg-slate-200 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <!-- Cart Footer -->
+            <div id="cart-footer">
+                <div class="cart-footer-content">
+                    <div class="cart-summary">
+                        <div class="cart-info">
+                            <div class="cart-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                            </button>
-                        </div>
-                        <div id="cart-items-list" class="flex-1 overflow-auto p-4 space-y-3"></div>
-                        <div class="p-4 border-t border-slate-200 bg-slate-50">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-slate-600">Total Amount</span>
-                                <span class="text-2xl font-bold text-blue-600">₹<span id="cart-modal-total">0</span></span>
                             </div>
-                            <button id="modal-place-order-btn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all">Confirm Order</button>
+                            <div class="cart-details">
+                                <p class="cart-items"><span id="cart-items-count">0</span> items</p>
+                                <p class="cart-total">₹<span id="cart-total">0</span></p>
+                            </div>
                         </div>
+                        <button id="view-cart-btn" class="view-cart-btn">View Cart →</button>
                     </div>
+                    <button id="place-order-btn" class="place-order-btn">
+                        <span id="order-btn-text">Place Order</span>
+                        <svg id="order-btn-spinner" class="w-5 h-5 animate-spin hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </main>
 
-        <!-- Success Modal -->
-        <div id="success-modal" class="fixed inset-0 bg-black/20 z-50 hidden flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl p-8 text-center max-w-sm w-full animate-scale-in">
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path class="animate-checkmark" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                    </svg>
+        <!-- Login Modal -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <h2 class="text-xl font-bold text-center mb-4">Staff Login</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Username</label>
+                        <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter username">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                        <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg" placeholder="Enter password">
+                    </div>
+                    <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-2 rounded-lg font-medium">
+                        Login
+                    </button>
+                    <p id="loginError" class="text-red-600 text-sm text-center hidden">Invalid credentials</p>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Order Placed!</h3>
-                <p class="text-slate-600 mb-6">Your order has been sent to the kitchen.</p>
-                <p class="text-sm text-slate-500 mb-4">Order ID: <span id="success-order-id" class="text-blue-600 font-mono font-bold">-</span></p>
-                <button id="close-success-modal" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors">Done</button>
             </div>
         </div>
 
-        <!-- Toast Notification -->
-        <div id="toast" class="fixed bottom-24 left-1/2 toast bg-gray-800 text-white px-4 py-3 rounded-xl shadow-lg transform transition-all duration-300 opacity-0 pointer-events-none z-50">
-            <p id="toast-message" class="text-sm"></p>
+        <!-- Cart Modal -->
+        <div class="modal" id="cart-modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold">Your Order</h3>
+                    <button onclick="closeCartModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+                </div>
+                <div id="cart-items-list" class="space-y-3 max-h-96 overflow-auto"></div>
+                <div class="border-t pt-4 mt-4">
+                    <div class="flex justify-between mb-4">
+                        <span>Total</span>
+                        <span class="text-xl font-bold text-blue-600">₹<span id="cart-modal-total">0</span></span>
+                    </div>
+                    <button onclick="submitOrder()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-medium">
+                        Confirm Order
+                    </button>
+                </div>
+            </div>
         </div>
+
+        <!-- Success Modal -->
+        <div class="modal" id="success-modal">
+            <div class="modal-content text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Order Placed!</h3>
+                <p class="text-slate-600 mb-4">Order ID: <span id="success-order-id" class="text-blue-600 font-mono"></span></p>
+                <button onclick="closeSuccessModal()" class="w-full bg-blue-600 text-white py-2 rounded-lg">
+                    Done
+                </button>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast"></div>
     </div>
 
     <script>
-        // =====================================================
-        // LOGIN FUNCTIONALITY
-        // =====================================================
-        
-        function openLoginModal() {
-            document.getElementById('loginModal').classList.add('active');
-            document.getElementById('username').focus();
-        }
-        
-        function closeLoginModal() {
-            document.getElementById('loginModal').classList.remove('active');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('loginError').classList.remove('show');
-        }
-        
-        function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorEl = document.getElementById('loginError');
-            
-            if (username === 'staff' && password === 'staff@123') {
-                window.open('kitchen.html', '_blank');
-                closeLoginModal();
-            } 
-            else if (username === 'admin' && password === 'admin@123') {
-                window.open('admin.html', '_blank');
-                closeLoginModal();
-            } 
-            else {
-                errorEl.classList.add('show');
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
-            }
-        }
-        
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && document.getElementById('loginModal').classList.contains('active')) {
-                handleLogin();
-            }
-        });
-        
-        window.addEventListener('click', function(e) {
-            const modal = document.getElementById('loginModal');
-            if (e.target === modal) {
-                closeLoginModal();
-            }
-        });
-
-        // =====================================================
-        // TABLE SELECTION FUNCTIONS
-        // =====================================================
-        
-        function setTableNumber(tableNum) {
-            tableNumber = tableNum;
-            document.getElementById('table-number-display').textContent = tableNum;
-            document.getElementById('custom-table').value = tableNum;
-            
-            // Highlight active button
-            document.querySelectorAll('.table-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent == tableNum) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            showToast(`Table ${tableNum} selected`);
-        }
-        
-        function setCustomTable() {
-            const customTable = document.getElementById('custom-table').value;
-            if (customTable && customTable > 0) {
-                setTableNumber(parseInt(customTable));
-            } else {
-                showToast('Please enter a valid table number');
-            }
-        }
-
-        // =====================================================
-        // CONFIGURATION
-        // =====================================================
-        
+        // Configuration
         const MENU_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqv42uYpOOT9DoNPGgoaFLIU5xuRwfY4Jif5PfJqK-eKPhWGTiQnVonqRCKLZRy28N/exec';
         const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3rKMElcFAnGSsA95T0LciwCE4WULIj3_i8_cSPNyPZ2r88bxLYyTxnFSLVtEAaEyrpw/exec';
         
-        const defaultConfig = {
-            restaurant_name: 'Culinary Haven',
-            tagline: 'Premium Dining'
-        };
-        
+        // State
         let cart = [];
         let menuItems = [];
         let currentCategory = 'all';
         let tableNumber = 1;
         let isSubmitting = false;
         
-        // =====================================================
-        // LOAD MENU FROM GOOGLE SHEET
-        // =====================================================
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tableParam = urlParams.get('table');
+            
+            if (tableParam) {
+                setTableNumber(parseInt(tableParam));
+            } else {
+                setTableNumber(1);
+            }
+            
+            loadMenuFromSheet();
+            setupEventListeners();
+        });
         
+        // Table Functions
+        function setTableNumber(num) {
+            tableNumber = num;
+            document.getElementById('table-number-display').textContent = num;
+            document.getElementById('custom-table').value = num;
+            
+            document.querySelectorAll('.table-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent == num) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        function setCustomTable() {
+            const val = document.getElementById('custom-table').value;
+            if (val && val > 0) {
+                setTableNumber(parseInt(val));
+            }
+        }
+        
+        // Menu Functions
         async function loadMenuFromSheet() {
             showLoading(true);
             
             try {
-                const url = `${MENU_SCRIPT_URL}?action=getMenu&t=${Date.now()}`;
-                const response = await fetch(url);
+                const response = await fetch(`${MENU_SCRIPT_URL}?action=getMenu&t=${Date.now()}`);
                 const result = await response.json();
                 
-                if (result.status === 'success' && result.data && result.data.length > 0) {
+                if (result.status === 'success' && result.data) {
                     menuItems = result.data;
                     initializeCategories();
                     renderMenu();
                     showLoading(false);
-                    showToast(`Menu loaded with ${menuItems.length} items`);
                 } else {
-                    showLoading(false);
-                    showError(true, 'No menu items found', 'Your Menu Items sheet is empty.');
+                    throw new Error('No data');
                 }
             } catch (error) {
-                console.error('Error:', error);
                 showLoading(false);
-                showError(true, 'Connection Error', 'Failed to connect to menu script.');
+                showError(true, 'Connection Error');
             }
         }
         
         function initializeCategories() {
             const categories = ['all', ...new Set(menuItems.map(item => item.category))];
-            const filterContainer = document.getElementById('category-filters');
+            const container = document.getElementById('category-filters');
             
-            const categoryLabels = {
+            const labels = {
                 'all': 'All Items',
                 'starters': '🥗 Starters',
-                'main': '🍛 Main Course',
-                'beverages': '🥤 Beverages',
+                'main': '🍛 Main',
+                'beverages': '🥤 Drinks',
                 'desserts': '🍰 Desserts'
             };
             
-            filterContainer.innerHTML = categories.map(category => {
-                const displayName = categoryLabels[category] || category;
-                const isActive = category === 'all' ? 'active' : '';
-                
-                return `
-                    <button class="category-pill ${isActive} px-4 py-2 rounded-full text-sm font-medium bg-slate-100 text-slate-700 whitespace-nowrap" data-category="${category}">
-                        ${displayName}
-                    </button>
-                `;
-            }).join('');
+            container.innerHTML = categories.map(cat => `
+                <button class="category-pill ${cat === 'all' ? 'active' : ''}" data-category="${cat}">
+                    ${labels[cat] || cat}
+                </button>
+            `).join('');
             
-            document.querySelectorAll('.category-pill').forEach(pill => {
-                pill.addEventListener('click', () => {
-                    document.querySelectorAll('.category-pill').forEach(p => {
-                        p.classList.remove('active');
-                    });
-                    pill.classList.add('active');
-                    currentCategory = pill.dataset.category;
+            document.querySelectorAll('.category-pill').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
                     renderMenu();
                 });
             });
         }
         
-        function showLoading(show) {
-            document.getElementById('loading-state').style.display = show ? 'flex' : 'none';
-            document.getElementById('menu-container').style.display = show ? 'none' : 'block';
-            document.getElementById('error-state').style.display = 'none';
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            if (!grid || !menuItems.length) return;
+            
+            const filtered = currentCategory === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === currentCategory);
+            
+            grid.innerHTML = filtered.map(item => {
+                const hasStock = item.sizes.some(s => s.available);
+                
+                return `
+                    <div class="menu-card ${!hasStock ? 'unavailable' : ''}" data-item-id="${item.id}">
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-14 h-14 bg-slate-100 rounded-xl overflow-hidden">
+                                    ${item.imageUrl ? 
+                                        `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">` : 
+                                        `<div class="w-full h-full flex items-center justify-center text-2xl">🍽️</div>`
+                                    }
+                                </div>
+                                ${!hasStock ? '<span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">Out of Stock</span>' : ''}
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-1">${item.name}</h3>
+                            <p class="text-sm text-slate-600 mb-3 line-clamp-2">${item.description}</p>
+                            
+                            <div class="space-y-2">
+                                ${item.sizes.map(size => {
+                                    const qty = getCartItemQuantity(item.id, size.size);
+                                    if (!size.available) {
+                                        return `
+                                            <div class="size-option opacity-50">
+                                                <div class="size-info">
+                                                    <span class="size-name">${size.size}</span>
+                                                    <span class="size-price text-gray-400">₹${size.price}</span>
+                                                </div>
+                                                <span class="text-xs text-red-600">Out of Stock</span>
+                                            </div>
+                                        `;
+                                    }
+                                    return `
+                                        <div class="size-option" data-item-id="${item.id}" data-item-size="${size.size}">
+                                            <div class="size-info">
+                                                <span class="size-name">${size.size}</span>
+                                                <span class="size-price">₹${size.price}</span>
+                                            </div>
+                                            <div class="size-actions">
+                                                <button onclick="removeFromCart('${item.id}', '${size.size}')" 
+                                                        class="qty-btn minus" ${qty === 0 ? 'disabled' : ''}>−</button>
+                                                <span class="qty-display">${qty}</span>
+                                                <button onclick="addToCart('${item.id}', '${size.size}')" 
+                                                        class="qty-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
         
-        function showError(show, title, message) {
-            document.getElementById('loading-state').style.display = 'none';
-            document.getElementById('menu-container').style.display = 'none';
-            document.getElementById('error-state').style.display = show ? 'block' : 'none';
-            if (title) document.getElementById('error-title').textContent = title;
-            if (message) document.getElementById('error-message').textContent = message;
-        }
-        
-        // =====================================================
-        // CART FUNCTIONS
-        // =====================================================
-        
+        // Cart Functions
         function addToCart(itemId, size) {
             const item = menuItems.find(i => i.id === itemId);
             if (!item) return;
             
-            const selectedSize = item.sizes.find(s => s.size === size);
-            if (!selectedSize || !selectedSize.available) return;
+            const sizeObj = item.sizes.find(s => s.size === size);
+            if (!sizeObj?.available) return;
             
-            const existingItem = cart.find(i => i.id === itemId && i.selectedSize === size);
-            if (existingItem) {
-                existingItem.quantity++;
+            const existing = cart.find(i => i.id === itemId && i.selectedSize === size);
+            if (existing) {
+                existing.quantity++;
             } else {
-                cart.push({ 
-                    ...item, 
-                    quantity: 1, 
-                    selectedSize: size,
-                    price: selectedSize.price
-                });
+                cart.push({...item, quantity: 1, selectedSize: size, price: sizeObj.price});
             }
             
             updateCartUI();
-            showToast(`${item.name} (${size}) added to cart`);
+            showToast(`${item.name} (${size}) added`);
         }
         
         function removeFromCart(itemId, size) {
@@ -761,39 +865,26 @@
         }
         
         function getCartItemQuantity(itemId, size) {
-            const item = cart.find(i => i.id === itemId && i.selectedSize === size);
-            return item ? item.quantity : 0;
+            return cart.find(i => i.id === itemId && i.selectedSize === size)?.quantity || 0;
         }
         
         function getCartTotal() {
-            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         }
         
-        function getCartItemsCount() {
-            return cart.reduce((count, item) => count + item.quantity, 0);
-        }
-        
-        function clearCart() {
-            cart = [];
-            updateCartUI();
+        function getCartCount() {
+            return cart.reduce((sum, item) => sum + item.quantity, 0);
         }
         
         function updateCartUI() {
-            const cartFooter = document.getElementById('cart-footer');
-            const cartItemsCount = document.getElementById('cart-items-count');
-            const cartTotal = document.getElementById('cart-total');
-            const cartModalTotal = document.getElementById('cart-modal-total');
-            
+            const count = getCartCount();
             const total = getCartTotal();
-            const count = getCartItemsCount();
             
-            if (cartItemsCount) cartItemsCount.textContent = count;
-            if (cartTotal) cartTotal.textContent = total.toLocaleString();
-            if (cartModalTotal) cartModalTotal.textContent = total.toLocaleString();
+            document.getElementById('cart-items-count').textContent = count;
+            document.getElementById('cart-total').textContent = total.toLocaleString();
+            document.getElementById('cart-modal-total').textContent = total.toLocaleString();
             
-            if (cartFooter) {
-                cartFooter.classList.toggle('translate-y-full', count === 0);
-            }
+            document.getElementById('cart-footer').classList.toggle('visible', count > 0);
             
             renderCartModal();
             updateQuantityBadges();
@@ -801,161 +892,58 @@
         
         function updateQuantityBadges() {
             document.querySelectorAll('[data-item-id][data-item-size]').forEach(container => {
-                const itemId = container.dataset.itemId;
+                const id = container.dataset.itemId;
                 const size = container.dataset.itemSize;
+                const qty = getCartItemQuantity(id, size);
                 
-                if (!itemId || !size) return;
+                const display = container.querySelector('.qty-display');
+                if (display) display.textContent = qty;
                 
-                const qty = getCartItemQuantity(itemId, size);
-                
-                const qtyDisplay = container.querySelector('.qty-display');
-                if (qtyDisplay) {
-                    qtyDisplay.textContent = qty;
-                }
-                
-                const minusBtn = container.querySelector('.qty-minus');
-                if (minusBtn) {
-                    minusBtn.disabled = qty === 0;
-                    minusBtn.classList.toggle('opacity-50', qty === 0);
-                }
+                const minus = container.querySelector('.minus');
+                if (minus) minus.disabled = qty === 0;
             });
         }
         
         function renderCartModal() {
-            const cartItemsList = document.getElementById('cart-items-list');
-            if (!cartItemsList) return;
+            const list = document.getElementById('cart-items-list');
+            if (!list) return;
             
             if (cart.length === 0) {
-                cartItemsList.innerHTML = '<div class="text-center py-8 text-slate-500"><p>Your cart is empty</p></div>';
+                list.innerHTML = '<p class="text-center text-slate-500 py-4">Cart is empty</p>';
                 return;
             }
             
-            cartItemsList.innerHTML = cart.map(item => `
-                <div class="bg-slate-50 rounded-xl p-3 flex items-center gap-3 border border-slate-200">
-                    ${item.imageUrl ? 
-                        `<img src="${item.imageUrl}" class="w-12 h-12 rounded-lg object-cover">` : 
-                        `<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-2xl">🍽️</div>`
-                    }
+            list.innerHTML = cart.map(item => `
+                <div class="bg-slate-50 p-3 rounded-lg flex items-center gap-3">
+                    <div class="w-10 h-10 bg-slate-200 rounded-lg flex items-center justify-center text-xl">
+                        ${item.imageUrl ? `<img src="${item.imageUrl}" class="w-full h-full object-cover rounded-lg">` : '🍽️'}
+                    </div>
                     <div class="flex-1">
-                        <p class="font-medium text-gray-900">${item.name}</p>
-                        <p class="text-sm text-slate-600">${item.selectedSize} • ₹${item.price} × ${item.quantity}</p>
+                        <p class="font-medium">${item.name}</p>
+                        <p class="text-sm text-slate-600">${item.selectedSize} • ₹${item.price} x${item.quantity}</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="removeFromCart('${item.id}', '${item.selectedSize}')" class="w-8 h-8 bg-slate-200 rounded-lg flex items-center justify-center hover:bg-slate-300">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
-                        </button>
-                        <span class="w-8 text-center font-medium">${item.quantity}</span>
-                        <button onclick="addToCart('${item.id}', '${item.selectedSize}')" class="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        </button>
-                    </div>
-                    <p class="font-bold text-blue-600 w-20 text-right">₹${(item.price * item.quantity).toLocaleString()}</p>
+                    <p class="font-bold text-blue-600">₹${item.price * item.quantity}</p>
                 </div>
             `).join('');
         }
-        
-        // =====================================================
-        // MENU RENDERING
-        // =====================================================
-        
-        function renderMenu() {
-            const menuGrid = document.getElementById('menu-grid');
-            if (!menuGrid || !menuItems.length) return;
-            
-            const filteredItems = currentCategory === 'all' 
-                ? menuItems 
-                : menuItems.filter(item => item.category === currentCategory);
-            
-            if (filteredItems.length === 0) {
-                menuGrid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500"><p>No items found</p></div>';
-                return;
-            }
-            
-            menuGrid.innerHTML = filteredItems.map((item, index) => {
-                const hasAvailableSize = item.sizes.some(size => size.available);
-                
-                return `
-                    <div class="menu-card ${!hasAvailableSize ? 'unavailable' : ''} animate-fade-in-up" 
-                         style="animation-delay: ${index * 50}ms" 
-                         data-item-id="${item.id}">
-                        <div class="p-4">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="w-14 h-14 bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center">
-                                    ${item.imageUrl ? 
-                                        `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">` : 
-                                        `<span class="text-3xl">🍽️</span>`
-                                    }
-                                </div>
-                                ${!hasAvailableSize ? '<span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Out of Stock</span>' : ''}
-                            </div>
-                            <h3 class="font-semibold text-lg text-gray-900 mb-1">${item.name}</h3>
-                            <p class="text-sm text-slate-600 mb-3 line-clamp-2">${item.description}</p>
-                            
-                            <div class="space-y-2">
-                                ${item.sizes.map(size => {
-                                    const qty = getCartItemQuantity(item.id, size.size);
-                                    if (!size.available) {
-                                        return `
-                                            <div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg opacity-50">
-                                                <div>
-                                                    <p class="text-sm font-medium text-gray-900">${size.size}</p>
-                                                    <p class="text-lg font-bold text-gray-400">₹${size.price}</p>
-                                                </div>
-                                                <span class="text-xs text-red-600 font-medium">Out of Stock</span>
-                                            </div>
-                                        `;
-                                    }
-                                    return `
-                                        <div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg" 
-                                             data-item-id="${item.id}" 
-                                             data-item-size="${size.size}">
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-900">${size.size}</p>
-                                                <p class="text-lg font-bold text-blue-600">₹${size.price}</p>
-                                            </div>
-                                            <div class="flex items-center gap-1">
-                                                <button onclick="removeFromCart('${item.id}', '${size.size}')" 
-                                                        class="qty-btn qty-minus w-7 h-7 bg-slate-200 rounded flex items-center justify-center hover:bg-slate-300 text-xs"
-                                                        ${qty === 0 ? 'disabled' : ''}>
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
-                                                </button>
-                                                <span class="qty-display w-6 text-center text-sm font-medium">${qty}</span>
-                                                <button onclick="addToCart('${item.id}', '${size.size}')" 
-                                                        class="qty-btn w-7 h-7 bg-blue-600 text-white rounded flex items-center justify-center hover:bg-blue-700 text-xs">
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        // =====================================================
-        // ORDER SUBMISSION
-        // =====================================================
         
         async function submitOrder() {
             if (isSubmitting || cart.length === 0) return;
             
             isSubmitting = true;
-            const placeOrderBtn = document.getElementById('place-order-btn');
-            const orderBtnText = document.getElementById('order-btn-text');
-            const orderBtnSpinner = document.getElementById('order-btn-spinner');
+            const btn = document.getElementById('place-order-btn');
+            const text = document.getElementById('order-btn-text');
+            const spinner = document.getElementById('order-btn-spinner');
             
-            placeOrderBtn.disabled = true;
-            orderBtnText.textContent = 'Processing...';
-            orderBtnSpinner.classList.remove('hidden');
+            btn.disabled = true;
+            text.textContent = 'Processing...';
+            spinner.classList.remove('hidden');
             
-            const orderId = 'ORD' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
+            const orderId = 'ORD' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2,4).toUpperCase();
             
             const orderData = {
-                orderId: orderId,
-                tableNumber: tableNumber,
+                orderId,
+                tableNumber,
                 items: cart.map(item => ({
                     id: item.id,
                     name: item.name,
@@ -974,82 +962,104 @@
                 await fetch(`${ORDERS_SCRIPT_URL}?action=submitOrder`, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(orderData)
                 });
                 
-                document.getElementById('success-modal').classList.remove('hidden');
+                document.getElementById('success-modal').classList.add('active');
                 document.getElementById('success-order-id').textContent = orderId;
-                document.getElementById('cart-modal').classList.add('hidden');
+                document.getElementById('cart-modal').classList.remove('active');
                 clearCart();
-                showToast('Order placed successfully!');
-                
             } catch (error) {
-                showToast('Network error. Please try again.');
+                showToast('Network error');
             } finally {
                 isSubmitting = false;
-                placeOrderBtn.disabled = false;
-                orderBtnText.textContent = 'Place Order';
-                orderBtnSpinner.classList.add('hidden');
+                btn.disabled = false;
+                text.textContent = 'Place Order';
+                spinner.classList.add('hidden');
             }
         }
-
-        function showToast(message, duration = 3000) {
+        
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+        
+        // UI Functions
+        function showLoading(show) {
+            document.getElementById('loading-state').style.display = show ? 'flex' : 'none';
+            document.getElementById('menu-container').style.display = show ? 'none' : 'block';
+            document.getElementById('error-state').classList.add('hidden');
+        }
+        
+        function showError(show, msg) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('menu-container').style.display = 'none';
+            document.getElementById('error-state').classList.toggle('hidden', !show);
+            if (msg) document.getElementById('error-message').textContent = msg;
+        }
+        
+        function showToast(msg) {
             const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            toastMessage.textContent = message;
-            toast.classList.remove('opacity-0', 'pointer-events-none');
-            toast.classList.add('opacity-100');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none');
-                toast.classList.remove('opacity-100');
-            }, duration);
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
         
-        function applyConfig(config) {
-            document.getElementById('restaurant-name').textContent = config.restaurant_name || defaultConfig.restaurant_name;
-            document.getElementById('restaurant-tagline').textContent = config.tagline || defaultConfig.tagline;
+        // Modal Functions
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
         }
         
-        // =====================================================
-        // INITIALIZATION
-        // =====================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const tableParam = urlParams.get('table');
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
-            if (tableParam) {
-                setTableNumber(parseInt(tableParam) || 1);
+            if (username === 'staff' && password === 'staff@123') {
+                window.open('kitchen.html', '_blank');
+                document.getElementById('loginModal').classList.remove('active');
+            } else if (username === 'admin' && password === 'admin@123') {
+                window.open('admin.html', '_blank');
+                document.getElementById('loginModal').classList.remove('active');
             } else {
-                setTableNumber(1); // Default to table 1
+                document.getElementById('loginError').classList.remove('hidden');
             }
-            
-            loadMenuFromSheet();
-            
-            document.getElementById('place-order-btn').addEventListener('click', submitOrder);
-            document.getElementById('modal-place-order-btn').addEventListener('click', submitOrder);
-            
+        }
+        
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.remove('active');
+        }
+        
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('active');
+        }
+        
+        // Event Listeners
+        function setupEventListeners() {
             document.getElementById('view-cart-btn').addEventListener('click', () => {
-                document.getElementById('cart-modal').classList.remove('hidden');
+                document.getElementById('cart-modal').classList.add('active');
             });
             
-            document.getElementById('close-cart-modal').addEventListener('click', () => {
-                document.getElementById('cart-modal').classList.add('hidden');
-            });
+            document.getElementById('close-cart-modal')?.addEventListener('click', closeCartModal);
             
             document.getElementById('cart-modal').addEventListener('click', (e) => {
                 if (e.target === document.getElementById('cart-modal')) {
-                    document.getElementById('cart-modal').classList.add('hidden');
+                    closeCartModal();
                 }
             });
             
-            document.getElementById('close-success-modal').addEventListener('click', () => {
-                document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('success-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('success-modal')) {
+                    closeSuccessModal();
+                }
             });
             
-            applyConfig(defaultConfig);
-        });
+            document.getElementById('loginModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('loginModal')) {
+                    document.getElementById('loginModal').classList.remove('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>
