@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Smart QR Table Ordering - Admin Dashboard</title>
 
-    <!-- Favicon - YAHAN ADD KARO -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://img.icons8.com/color/48/restaurant.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://img.icons8.com/color/48/restaurant.png">
     <link rel="apple-touch-icon" href="https://img.icons8.com/color/48/restaurant.png">
@@ -18,42 +18,213 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
+            color: #1e293b;
+            overflow-x: hidden;
         }
         
+        /* Admin Header - Mobile Optimized */
         .admin-header {
             background: white;
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+            }
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .header-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .header-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+        
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .header-title p {
+            font-size: 0.75rem;
+            color: #8b5cf6;
+        }
+        
+        .header-right {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-badge {
+            background: #8b5cf6;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .export-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .export-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        .refresh-btn {
+            background: #8b5cf6;
+            color: white;
+            padding: 0.375rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Stats Cards - Mobile Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
         }
         
         .stat-card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1rem;
             border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
         
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        .stat-card:active {
+            transform: scale(0.98);
         }
         
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-header p {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .stat-icon {
+            font-size: 1.25rem;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        
+        /* Section Cards */
         .section-card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1rem;
             border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
         }
         
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #1e293b;
             margin-bottom: 1rem;
@@ -61,11 +232,50 @@
             border-bottom: 2px solid #e2e8f0;
         }
         
+        /* Category Summary - Mobile Grid */
+        .category-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .category-summary {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .category-box {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .category-box-title {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .category-box-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .category-box-sub {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        
+        /* Category Badges */
         .category-badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         
@@ -89,11 +299,88 @@
             color: #6b21a8;
         }
         
+        /* Detailed Category Grid */
+        .category-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .category-detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .category-detail-card {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .category-count {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        /* Dish Items */
+        .dish-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dish-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .dish-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .dish-emoji {
+            font-size: 1rem;
+        }
+        
+        .dish-quantity {
+            background: #8b5cf6;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .dish-revenue {
+            font-weight: 600;
+            color: #059669;
+            font-size: 0.85rem;
+        }
+        
+        /* Status Badges */
         .status-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
+            display: inline-block;
+            white-space: nowrap;
         }
         
         .status-pending {
@@ -116,46 +403,96 @@
             color: #374151;
         }
         
-        .filter-select {
-            background: white;
+        /* Status Grid */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        @media (min-width: 768px) {
+            .status-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .status-card {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
             border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            color: #1e293b;
-            outline: none;
         }
         
-        .filter-select:focus {
-            border-color: #8b5cf6;
+        .status-number {
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
-        .export-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            display: inline-flex;
+        .status-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        /* Recent Orders */
+        .recent-order-item {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 0.75rem;
+        }
+        
+        .recent-order-header {
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
-            border: none;
-            cursor: pointer;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
         }
         
-        .export-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(16,185,129,0.3);
+        .recent-order-id {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #64748b;
         }
         
+        .recent-order-table {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .recent-order-items {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .recent-order-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .recent-order-amount {
+            font-weight: 700;
+            color: #8b5cf6;
+        }
+        
+        .recent-order-time {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        
+        /* Loading Spinner */
         .loading-spinner {
             border: 3px solid #e2e8f0;
             border-top: 3px solid #8b5cf6;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 2.5rem;
+            height: 2.5rem;
             animation: spin 1s linear infinite;
         }
         
@@ -164,121 +501,82 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Toast */
         .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
             transform: translateX(-50%);
-        }
-        
-        .admin-badge {
-            background: #8b5cf6;
+            background: #1e293b;
             color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .dish-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 0.5rem;
-        }
-        
-        .dish-name {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .dish-emoji {
-            font-size: 1.25rem;
-        }
-        
-        .dish-quantity {
-            background: #8b5cf6;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        .dish-revenue {
-            font-weight: 600;
-            color: #059669;
-        }
-        
-        .category-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .category-box {
-            background: #f8fafc;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .category-box-title {
             font-size: 0.875rem;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Date Display */
+        .date-display {
+            font-size: 0.8rem;
             color: #64748b;
-            margin-bottom: 0.25rem;
         }
         
-        .category-box-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 2rem 1rem;
         }
         
-        .category-box-sub {
-            font-size: 0.75rem;
-            color: #94a3b8;
+        .error-state svg {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            opacity: 0.5;
         }
     </style>
 </head>
-<body class="h-full bg-slate-50 text-gray-900 overflow-auto">
-    <div id="app" class="h-full w-full flex flex-col">
+<body>
+    <div id="app">
         <!-- Admin Header -->
-        <header class="admin-header sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 py-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center">
-                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 class="font-display text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-                            <p class="text-sm text-purple-600">Today's Overview & Analytics</p>
-                        </div>
+        <header class="admin-header">
+            <div class="header-container">
+                <div class="header-left">
+                    <div class="header-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <span class="admin-badge">Admin Panel</span>
-                        <button onclick="exportData()" class="export-btn">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            Export Report
-                        </button>
-                        <button onclick="refreshData()" class="px-3 py-1.5 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors">
-                            Refresh
-                        </button>
+                    <div class="header-title">
+                        <h1>Admin Dashboard</h1>
+                        <p>Today's Overview & Analytics</p>
                     </div>
+                </div>
+                <div class="header-right">
+                    <span class="admin-badge">Admin</span>
+                    <button onclick="exportData()" class="export-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="hidden sm:inline">Export</span>
+                    </button>
+                    <button onclick="refreshData()" class="refresh-btn">
+                        <span class="hidden sm:inline">Refresh</span>
+                        <span class="sm:hidden">↻</span>
+                    </button>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-auto p-6">
+        <main>
             <!-- Loading State -->
             <div id="loading-state" class="flex justify-center items-center py-12">
                 <div class="loading-spinner"></div>
@@ -286,13 +584,13 @@
             </div>
 
             <!-- Error State -->
-            <div id="error-state" class="text-center py-12 text-slate-500 hidden">
-                <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div id="error-state" class="error-state hidden">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
                 <p class="text-lg font-medium text-slate-700">Failed to load dashboard</p>
-                <p class="text-sm text-slate-500 mt-2" id="error-message">Please check your connection and try again</p>
-                <button onclick="loadDashboard()" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                <p class="text-sm text-slate-500 mt-2" id="error-message">Please check your connection</p>
+                <button onclick="loadDashboard()" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm">
                     Retry
                 </button>
             </div>
@@ -302,99 +600,89 @@
                 <!-- Date Filter -->
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold text-gray-900">Today's Overview</h2>
-                    <div class="text-sm text-slate-500" id="current-date"></div>
+                    <div class="date-display" id="current-date"></div>
                 </div>
 
                 <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm text-slate-600">Total Orders Today</p>
-                            <span class="text-2xl">📋</span>
+                        <div class="stat-header">
+                            <p>Total Orders</p>
+                            <span class="stat-icon">📋</span>
                         </div>
-                        <p id="total-orders-today" class="text-3xl font-bold text-gray-900">0</p>
-                        <p class="text-xs text-slate-500 mt-1">orders placed today</p>
+                        <div class="stat-number" id="total-orders-today">0</div>
+                        <div class="stat-label">orders today</div>
                     </div>
                     
                     <div class="stat-card">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm text-slate-600">Revenue Today</p>
-                            <span class="text-2xl">💰</span>
+                        <div class="stat-header">
+                            <p>Revenue</p>
+                            <span class="stat-icon">💰</span>
                         </div>
-                        <p class="text-3xl font-bold text-gray-900">₹<span id="total-revenue-today">0</span></p>
-                        <p class="text-xs text-slate-500 mt-1">total sales</p>
+                        <div class="stat-number">₹<span id="total-revenue-today">0</span></div>
+                        <div class="stat-label">total sales</div>
                     </div>
                     
                     <div class="stat-card">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm text-slate-600">Tables Served</p>
-                            <span class="text-2xl">👥</span>
+                        <div class="stat-header">
+                            <p>Tables</p>
+                            <span class="stat-icon">👥</span>
                         </div>
-                        <p id="tables-served" class="text-3xl font-bold text-gray-900">0</p>
-                        <p class="text-xs text-slate-500 mt-1">unique tables</p>
+                        <div class="stat-number" id="tables-served">0</div>
+                        <div class="stat-label">unique tables</div>
                     </div>
                     
                     <div class="stat-card">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm text-slate-600">Avg Order Value</p>
-                            <span class="text-2xl">📊</span>
+                        <div class="stat-header">
+                            <p>Avg Order</p>
+                            <span class="stat-icon">📊</span>
                         </div>
-                        <p id="avg-order-today" class="text-3xl font-bold text-gray-900">₹0</p>
-                        <p class="text-xs text-slate-500 mt-1">per order</p>
+                        <div class="stat-number">₹<span id="avg-order-today">0</span></div>
+                        <div class="stat-label">per order</div>
                     </div>
                 </div>
 
                 <!-- Category-wise Summary -->
                 <div class="section-card">
                     <h3 class="section-title">Category-wise Breakdown</h3>
-                    <div class="category-summary" id="category-summary">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
+                    <div class="category-summary" id="category-summary"></div>
                     
                     <!-- Detailed Category Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="category-detail-grid">
                         <!-- Starters -->
-                        <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
-                            <div class="flex items-center gap-2 mb-3">
+                        <div class="category-detail-card">
+                            <div class="category-header">
                                 <span class="category-badge category-starters">Starters</span>
-                                <span class="text-sm text-slate-600" id="starters-count">0 items</span>
+                                <span class="category-count" id="starters-count">0 items</span>
                             </div>
-                            <div id="starters-list" class="space-y-2">
-                                <!-- Starters list will go here -->
-                            </div>
+                            <div id="starters-list" class="space-y-2"></div>
                         </div>
 
                         <!-- Main Course -->
-                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
-                            <div class="flex items-center gap-2 mb-3">
+                        <div class="category-detail-card">
+                            <div class="category-header">
                                 <span class="category-badge category-main">Main Course</span>
-                                <span class="text-sm text-slate-600" id="main-count">0 items</span>
+                                <span class="category-count" id="main-count">0 items</span>
                             </div>
-                            <div id="main-list" class="space-y-2">
-                                <!-- Main course list will go here -->
-                            </div>
+                            <div id="main-list" class="space-y-2"></div>
                         </div>
 
                         <!-- Beverages -->
-                        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
-                            <div class="flex items-center gap-2 mb-3">
+                        <div class="category-detail-card">
+                            <div class="category-header">
                                 <span class="category-badge category-beverages">Beverages</span>
-                                <span class="text-sm text-slate-600" id="beverages-count">0 items</span>
+                                <span class="category-count" id="beverages-count">0 items</span>
                             </div>
-                            <div id="beverages-list" class="space-y-2">
-                                <!-- Beverages list will go here -->
-                            </div>
+                            <div id="beverages-list" class="space-y-2"></div>
                         </div>
 
                         <!-- Desserts -->
-                        <div class="bg-purple-50 rounded-xl p-4 border border-purple-200">
-                            <div class="flex items-center gap-2 mb-3">
+                        <div class="category-detail-card">
+                            <div class="category-header">
                                 <span class="category-badge category-desserts">Desserts</span>
-                                <span class="text-sm text-slate-600" id="desserts-count">0 items</span>
+                                <span class="category-count" id="desserts-count">0 items</span>
                             </div>
-                            <div id="desserts-list" class="space-y-2">
-                                <!-- Desserts list will go here -->
-                            </div>
+                            <div id="desserts-list" class="space-y-2"></div>
                         </div>
                     </div>
                 </div>
@@ -402,22 +690,22 @@
                 <!-- Order Status Summary -->
                 <div class="section-card">
                     <h3 class="section-title">Order Status Overview</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="text-center p-4 bg-amber-50 rounded-xl border border-amber-200">
-                            <p class="text-2xl font-bold text-amber-600" id="pending-count">0</p>
-                            <p class="text-sm text-amber-700">Pending</p>
+                    <div class="status-grid">
+                        <div class="status-card bg-amber-50 border-amber-200">
+                            <div class="status-number text-amber-600" id="pending-count">0</div>
+                            <div class="status-label text-amber-700">Pending</div>
                         </div>
-                        <div class="text-center p-4 bg-blue-50 rounded-xl border border-blue-200">
-                            <p class="text-2xl font-bold text-blue-600" id="preparing-count">0</p>
-                            <p class="text-sm text-blue-700">Preparing</p>
+                        <div class="status-card bg-blue-50 border-blue-200">
+                            <div class="status-number text-blue-600" id="preparing-count">0</div>
+                            <div class="status-label text-blue-700">Preparing</div>
                         </div>
-                        <div class="text-center p-4 bg-green-50 rounded-xl border border-green-200">
-                            <p class="text-2xl font-bold text-green-600" id="ready-count">0</p>
-                            <p class="text-sm text-green-700">Ready</p>
+                        <div class="status-card bg-green-50 border-green-200">
+                            <div class="status-number text-green-600" id="ready-count">0</div>
+                            <div class="status-label text-green-700">Ready</div>
                         </div>
-                        <div class="text-center p-4 bg-slate-50 rounded-xl border border-slate-200">
-                            <p class="text-2xl font-bold text-slate-600" id="completed-count">0</p>
-                            <p class="text-sm text-slate-700">Completed</p>
+                        <div class="status-card bg-slate-50 border-slate-200">
+                            <div class="status-number text-slate-600" id="completed-count">0</div>
+                            <div class="status-label text-slate-700">Completed</div>
                         </div>
                     </div>
                 </div>
@@ -425,31 +713,26 @@
                 <!-- Recent Orders -->
                 <div class="section-card">
                     <h3 class="section-title">Recent Orders</h3>
-                    <div id="recent-orders" class="space-y-3 max-h-96 overflow-auto">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
+                    <div id="recent-orders" class="space-y-3 max-h-96 overflow-auto"></div>
                 </div>
             </div>
         </main>
 
         <!-- Toast Notification -->
-        <div id="toast" class="fixed bottom-8 left-1/2 toast bg-gray-800 text-white px-4 py-3 rounded-xl shadow-lg transform transition-all duration-300 opacity-0 pointer-events-none z-50">
-            <p id="toast-message" class="text-sm"></p>
-        </div>
+        <div id="toast" class="toast"></div>
     </div>
 
     <script>
         // =====================================================
-        // CONFIGURATION - SIRF ORDERS SCRIPT URL
+        // CONFIGURATION
         // =====================================================
         
         const ORDERS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3rKMElcFAnGSsA95T0LciwCE4WULIj3_i8_cSPNyPZ2r88bxLYyTxnFSLVtEAaEyrpw/exec';
         
-        // Application state
         let orders = [];
         
         // =====================================================
-        // LOAD DASHBOARD DATA - SIRF SHEET SE
+        // LOAD DASHBOARD DATA
         // =====================================================
         
         async function loadDashboard() {
@@ -457,24 +740,17 @@
             
             const today = new Date();
             document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
+                weekday: 'short', 
+                month: 'short', 
                 day: 'numeric' 
             });
             
             try {
-                // Sirf orders fetch karo
                 const url = `${ORDERS_SCRIPT_URL}?action=getTodayOrders&t=${Date.now()}`;
-                console.log('Fetching from:', url);
-                
                 const response = await fetch(url);
                 const result = await response.json();
                 
-                console.log('Orders response:', result);
-                
                 if (result.status === 'success' && result.data) {
-                    // Parse orders
                     orders = result.data.map(order => ({
                         orderId: order.orderId,
                         tableNumber: order.tableNumber,
@@ -484,30 +760,26 @@
                         timestamp: order.timestamp
                     }));
                     
-                    console.log('Processed orders:', orders);
                     renderDashboard();
                     showLoading(false);
-                    showToast('Dashboard loaded successfully');
+                    showToast('Dashboard loaded');
                 } else {
-                    // No orders found
                     orders = [];
                     renderDashboard();
                     showLoading(false);
-                    showToast('No orders found');
                 }
             } catch (error) {
-                console.error('Error loading dashboard:', error);
+                console.error('Error:', error);
                 orders = [];
                 renderDashboard();
                 showLoading(false);
-                showError(true, 'Failed to load data from server');
+                showError(true, 'Failed to load data');
             }
         }
         
         function renderDashboard() {
             document.getElementById('content-area').classList.remove('hidden');
             
-            // Today's orders filter
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
@@ -517,18 +789,9 @@
                 return orderDate.getTime() === today.getTime();
             });
             
-            console.log('Today\'s orders:', todayOrders);
-            
-            // Update stats
             updateStats(todayOrders);
-            
-            // Update category breakdown
             updateCategoryBreakdown(todayOrders);
-            
-            // Update status counts
             updateStatusCounts(todayOrders);
-            
-            // Update recent orders
             updateRecentOrders(orders);
         }
         
@@ -545,7 +808,6 @@
         }
         
         function updateCategoryBreakdown(todayOrders) {
-            // Initialize counters for each category
             const categories = {
                 starters: { count: 0, items: {}, revenue: 0 },
                 main: { count: 0, items: {}, revenue: 0 },
@@ -553,7 +815,6 @@
                 desserts: { count: 0, items: {}, revenue: 0 }
             };
             
-            // Process each order
             todayOrders.forEach(order => {
                 order.items.forEach(item => {
                     const category = item.category || 'other';
@@ -565,7 +826,6 @@
                         categories[category].count += quantity;
                         categories[category].revenue += price * quantity;
                         
-                        // Track individual items with size
                         const itemKey = item.name + (item.size ? ` (${item.size})` : '');
                         if (!categories[category].items[itemKey]) {
                             categories[category].items[itemKey] = {
@@ -582,7 +842,6 @@
                 });
             });
             
-            // Update category summary boxes
             const categorySummary = document.getElementById('category-summary');
             categorySummary.innerHTML = `
                 <div class="category-box">
@@ -607,13 +866,11 @@
                 </div>
             `;
             
-            // Update total items count for each category
             document.getElementById('starters-count').textContent = `${categories.starters.count} items`;
             document.getElementById('main-count').textContent = `${categories.main.count} items`;
             document.getElementById('beverages-count').textContent = `${categories.beverages.count} items`;
             document.getElementById('desserts-count').textContent = `${categories.desserts.count} items`;
             
-            // Update individual category lists
             updateCategoryList('starters-list', categories.starters.items);
             updateCategoryList('main-list', categories.main.items);
             updateCategoryList('beverages-list', categories.beverages.items);
@@ -625,7 +882,7 @@
             const sortedItems = Object.values(items).sort((a, b) => b.quantity - a.quantity);
             
             if (sortedItems.length === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-2">No orders yet</p>';
+                container.innerHTML = '<p class="text-sm text-slate-500 text-center py-2">No orders</p>';
                 return;
             }
             
@@ -633,9 +890,9 @@
                 <div class="dish-item">
                     <div class="dish-name">
                         <span class="dish-emoji">${item.emoji}</span>
-                        <span class="font-medium">${item.name}${item.size ? ` (${item.size})` : ''}</span>
+                        <span>${item.name}${item.size ? ` (${item.size})` : ''}</span>
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
                         <span class="dish-quantity">×${item.quantity}</span>
                         <span class="dish-revenue">₹${item.revenue.toLocaleString()}</span>
                     </div>
@@ -644,37 +901,27 @@
         }
         
         function updateStatusCounts(todayOrders) {
-            const pending = todayOrders.filter(o => o.status === 'Pending').length;
-            const preparing = todayOrders.filter(o => o.status === 'Preparing').length;
-            const ready = todayOrders.filter(o => o.status === 'Ready').length;
-            const completed = todayOrders.filter(o => o.status === 'Completed').length;
-            
-            document.getElementById('pending-count').textContent = pending;
-            document.getElementById('preparing-count').textContent = preparing;
-            document.getElementById('ready-count').textContent = ready;
-            document.getElementById('completed-count').textContent = completed;
+            document.getElementById('pending-count').textContent = todayOrders.filter(o => o.status === 'Pending').length;
+            document.getElementById('preparing-count').textContent = todayOrders.filter(o => o.status === 'Preparing').length;
+            document.getElementById('ready-count').textContent = todayOrders.filter(o => o.status === 'Ready').length;
+            document.getElementById('completed-count').textContent = todayOrders.filter(o => o.status === 'Completed').length;
         }
         
         function updateRecentOrders(allOrders) {
-            const recentOrdersContainer = document.getElementById('recent-orders');
+            const container = document.getElementById('recent-orders');
             
-            const recentOrders = [...allOrders]
+            const recent = [...allOrders]
                 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
                 .slice(0, 10);
             
-            if (recentOrders.length === 0) {
-                recentOrdersContainer.innerHTML = `
-                    <div class="text-center py-6 text-slate-500">
-                        <p>No orders yet</p>
-                    </div>
-                `;
+            if (recent.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500 py-4">No orders</p>';
                 return;
             }
             
-            recentOrdersContainer.innerHTML = recentOrders.map(order => {
-                const statusClass = `status-badge status-${order.status?.toLowerCase() || 'pending'}`;
-                const itemSummary = order.items.map(item => 
-                    `${item.name}${item.size ? ` (${item.size})` : ''} (×${item.quantity})`
+            container.innerHTML = recent.map(order => {
+                const summary = order.items.map(i => 
+                    `${i.name}${i.size ? ` (${i.size})` : ''} x${i.quantity}`
                 ).join(', ');
                 
                 const time = order.timestamp ? new Date(order.timestamp).toLocaleTimeString('en-US', { 
@@ -682,19 +929,19 @@
                     minute: '2-digit' 
                 }) : '';
                 
+                const statusClass = `status-badge status-${order.status?.toLowerCase() || 'pending'}`;
+                
                 return `
-                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-1">
-                                <p class="font-mono text-xs text-slate-500">${order.orderId}</p>
-                                <span class="${statusClass}">${order.status || 'Pending'}</span>
-                            </div>
-                            <p class="font-medium text-gray-900">Table ${order.tableNumber}</p>
-                            <p class="text-xs text-slate-500 truncate max-w-md">${itemSummary}</p>
+                    <div class="recent-order-item">
+                        <div class="recent-order-header">
+                            <span class="recent-order-id">${order.orderId}</span>
+                            <span class="${statusClass}">${order.status}</span>
                         </div>
-                        <div class="text-right ml-4">
-                            <p class="font-bold text-purple-600">₹${order.totalAmount?.toLocaleString() || 0}</p>
-                            <p class="text-xs text-slate-500">${time}</p>
+                        <div class="recent-order-table">Table ${order.tableNumber}</div>
+                        <div class="recent-order-items">${summary}</div>
+                        <div class="recent-order-footer">
+                            <span class="recent-order-amount">₹${order.totalAmount?.toLocaleString() || 0}</span>
+                            <span class="recent-order-time">${time}</span>
                         </div>
                     </div>
                 `;
@@ -706,69 +953,40 @@
             const dataStr = JSON.stringify(orders, null, 2);
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
             
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', `orders_${today}.json`);
-            linkElement.click();
+            const link = document.createElement('a');
+            link.href = dataUri;
+            link.download = `orders_${today}.json`;
+            link.click();
             
-            showToast('Data exported successfully');
+            showToast('Data exported');
         }
         
         function refreshData() {
-            showToast('Refreshing data...');
+            showToast('Refreshing...');
             loadDashboard();
         }
         
-        // =====================================================
-        // UTILITY FUNCTIONS
-        // =====================================================
-        
-        function formatTime(timestamp) {
-            if (!timestamp) return '';
-            try {
-                const date = new Date(timestamp);
-                return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            } catch {
-                return '';
-            }
-        }
-        
-        function showToast(message, duration = 3000) {
+        function showToast(msg) {
             const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            if (toast && toastMessage) {
-                toastMessage.textContent = message;
-                toast.classList.remove('opacity-0', 'pointer-events-none');
-                toast.classList.add('opacity-100');
-                setTimeout(() => {
-                    toast.classList.add('opacity-0', 'pointer-events-none');
-                    toast.classList.remove('opacity-100');
-                }, duration);
-            }
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
         
         function showLoading(show) {
             document.getElementById('loading-state').style.display = show ? 'flex' : 'none';
-            document.getElementById('error-state').style.display = 'none';
+            document.getElementById('error-state').classList.add('hidden');
             document.getElementById('content-area').style.display = show ? 'none' : 'block';
         }
         
-        function showError(show, message) {
+        function showError(show, msg) {
             document.getElementById('loading-state').style.display = 'none';
-            document.getElementById('error-state').style.display = show ? 'block' : 'none';
+            document.getElementById('error-state').classList.toggle('hidden', !show);
             document.getElementById('content-area').style.display = show ? 'none' : 'block';
-            if (message) {
-                document.getElementById('error-message').textContent = message;
-            }
+            if (msg) document.getElementById('error-message').textContent = msg;
         }
         
-        // =====================================================
-        // INITIALIZATION
-        // =====================================================
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            loadDashboard();
-        });
+        document.addEventListener('DOMContentLoaded', loadDashboard);
     </script>
 </body>
 </html>
